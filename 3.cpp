@@ -1,138 +1,122 @@
-//string operation
-#include<iostream>
-#include<string.h>
+#include <iostream>
 using namespace std;
-class String
-{
-    public:
+
+class String {
+public:
     int findlength(char *p);
     void stringcopy(char *p);
     void stringcompare();
     void stringconcat();
-    void stringsearch(char* str1, char* substr1);
-     
+    void stringsearch(const char* str1, const char* substr1);
 };
-   int String::findlength(char *p)
-     {
-        int count=0;
-        while(*p !='\0')
-        {
-            count++;
-            p++;
-        }
-        cout<<"lenght of the string is:"<<count<<endl; 
-     }
-     void  String:: stringcopy( char *p)
-     {  char str2[100];
-        int i;
-        for(int i=0;p[i] != '\0'; ++i )
-        {
-            str2[i]=p[i];
-        }
-        str2[i]='\0';
-        cout<<"Original string is:"<< p <<endl;
-        cout<<"Copied string is :"<< str2  <<endl;
-     }
-     void  String::stringconcat()
-    {
-        char s1[50],s2[50],i=0,j=0,flag=0;
-        int l;
-        cout<<"Enter the first string"<<endl;
-        gets(s1);
-        cout<<"Enter the second string"<<endl;
-        gets(s2);
-        l=strlen(s1);
-        for(i=l; j=0;s2[j]!='\0';i++,j++)
-    {
-        s1[i]=s2[j];
+
+// Function to find the length of a string
+int String::findlength(char *p) {
+    int count = 0;
+    for (; *p != '\0'; p++) {
+        count++;
     }
-    cout<<"new string is :"<<s1<<endl;
-    }
-    void String::stringcompare()
-{
-
-    char str1[50],str2[50],i=0,j=0,flag=0;
-
-
-     fflush(stdin);
-     cout<<"-------------------------------";
-     cout<<"\n\nEnter first string : ";
-     gets(str1);
-
-     cout<<"\nEnter Second string : ";
-     gets(str2);
-
-      while(str1[i]!='\0')
-      {
-        i++;
-      }
-      while(str2[j]!='\0')
-      {
-        j++;
-      }
-
-     if(i!=j)
-     {
-        flag=0;
-     }
-     else
-     {
-         for(i=0,j=0;str1[i]!='\0',str2[j]!='\0';i++,j++)
-         {
-             if(str1[i]==str2[j])
-             {
-                flag=1;
-             }
-         }
-     }
-     cout<<endl<<"--------------------------------";
-     if(flag==0)
-     {
-        cout<<endl<<"Strings are not equal"<<endl;
-     }
-     else
-     {
-        cout<<endl<<"Strings are equal"<<endl;
-     }
-
+    cout << "Length of the string is: " << count << endl;
+    return count;
 }
-    void String::stringsearch(char *str1, char *substr1)
-  {
-    int subLength = strlen(substr1);
-    int length = strlen(str1);
 
-    for (int i = 0; i <= length - subLength; ++i)
-    {
-      int j;
-      for (j = 0; j < subLength; ++j)
-      {
-        if (str1[i + j] != substr1[j])
-           {
-               break;
-           }
-       }
+// Function to copy one string to another
+void String::stringcopy(char *p) {
+    char str2[100];
+    int i;
+    for (i = 0; p[i] != '\0'; i++) {
+        str2[i] = p[i];
+    }
+    str2[i] = '\0'; // Null terminate the copied string
 
-       if (j == subLength)
-        {
-           cout << "\n\nSubstring found at position " << i << endl;
-           return;
+    cout << "Original string: " << p << endl;
+    cout << "Copied string: " << str2 << endl;
+}
+
+// Function to compare two strings
+void String::stringcompare() {
+    char str1[50], str2[50];
+    int flag = 1;
+
+    cout << "Enter first string: ";
+    cin.ignore(); // Clear buffer before taking input
+    cin.getline(str1, 50);
+    cout << "Enter second string: ";
+    cin.getline(str2, 50);
+
+    for (int i = 0; str1[i] != '\0' || str2[i] != '\0'; i++) {
+        if (str1[i] != str2[i]) {
+            flag = 0;
+            break;
         }
     }
 
-    cout << "\n\nSubstring not found in the original string." << endl;
+    if (flag == 1) {
+        cout << "Strings are equal." << endl;
+    } else {
+        cout << "Strings are not equal." << endl;
+    }
+}
+
+// Function to concatenate two strings
+void String::stringconcat() {
+    char s1[100], s2[100];
+    int i, j;
+
+    cout << "Enter first string: ";
+    cin.ignore();
+    cin.getline(s1, 100);
+    cout << "Enter second string: ";
+    cin.getline(s2, 100);
+
+    for (i = 0; s1[i] != '\0'; i++);  // Move to end of s1
+    for (j = 0; s2[j] != '\0'; i++, j++) {
+        s1[i] = s2[j];
+    }
+    s1[i] = '\0';  // Null terminate the concatenated string
+
+    cout << "Concatenated string: " << s1 << endl;
+}
+
+// Function to search for a substring
+void String::stringsearch(const char* str1, const char* substr1) {
+    int length = 0, subLength = 0;
+
+    // Calculate length of main string
+    for (; str1[length] != '\0'; length++);
+
+    // Calculate length of substring
+    for (; substr1[subLength] != '\0'; subLength++);
+
+    for (int i = 0; i <= length - subLength; ++i) {
+        int j;
+        for (j = 0; j < subLength; ++j) {
+            if (str1[i + j] != substr1[j]) {
+                break;
+            }
+        }
+        if (j == subLength) {  // Substring found
+            cout << "\nSubstring found at position " << i << endl;
+            return;
+        }
     }
 
+    cout << "\nSubstring not found in the original string." << endl;
+}
 
-int main()
-{  String obj1;
-    char str[20];
-    cout<<"Enter a string: ";
-    gets(str);
-     
-     obj1.findlength(str);
+// Main function
+int main() {
+    String obj1;
+    char str[100];
+    
+    cout << "Enter a string: ";
+    cin.getline(str, 100);
+
+    obj1.findlength(str);
     obj1.stringcopy(str);
     obj1.stringcompare();
     obj1.stringconcat();
     obj1.stringsearch("Hello World", "World");
-     return 0;
+
+    return 0;
 }
